@@ -28,7 +28,7 @@ import okhttp3.Response;
 public class TestGetRequests {
 
 	Logger	log	= LogManager.getLogger (TestGetRequests.class);
-	String	url	= "http://reqres.in/api/users/";
+	String	url	= "https://reqres.in/api/users/";
 
 	/**
 	 * @since Mar 7, 2020
@@ -49,7 +49,7 @@ public class TestGetRequests {
 	 * @throws IOException
 	 *
 	 */
-	@Test (dataProvider = "getUserData", enabled = false)
+	@Test (dataProvider = "getUserData")
 	public void testGetRequest (final int userId) throws IOException {
 		final OkHttpClient client = new OkHttpClient ();
 		final Request request = new Request.Builder ().url (this.url + userId)
@@ -77,7 +77,7 @@ public class TestGetRequests {
 	 *
 	 * @since Mar 7, 2020
 	 */
-	@Test (dataProvider = "getUserData", enabled = false)
+	@Test (dataProvider = "getUserData")
 	public void testGetRest (final int userId) {
 		given ().when ()
 			.get (this.url + userId)
@@ -103,7 +103,7 @@ public class TestGetRequests {
 	 * @since Mar 7, 2020
 	 * @param userPage
 	 */
-	@Test (dataProvider = "getUserData", enabled = false)
+	@Test (dataProvider = "getUserData")
 	public void testRestGetRequestWithQueryParam (final int userPage) {
 		given ().when ()
 			.queryParam ("page", userPage)
@@ -127,7 +127,7 @@ public class TestGetRequests {
 	 * @param userPage
 	 * @throws IOException
 	 */
-	@Test (dataProvider = "getUserData", enabled = true)
+	@Test (dataProvider = "getUserData")
 	public void testGetRequestWithQueryParamOkHttp (final int userPage) throws IOException {
 		final OkHttpClient client = new OkHttpClient ();
 		final HttpUrl.Builder urlBuilder = HttpUrl.parse (this.url)
