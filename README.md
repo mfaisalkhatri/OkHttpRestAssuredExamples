@@ -8,7 +8,7 @@
 ## :question: Need Assistance?
 
 - Discuss your queries by writing to me @ [mohammadfaisalkhatri@gmail.com][mail] or you can ping me on the following social media sites:
-- Twitter: @mfaisal_khatri 
+- Twitter: [mfaisal_khatri][twitter] 
 - LinkedIn: [Mohammad Faisal Khatri][linkedin]
 
 
@@ -21,3 +21,4 @@
 
 [mail]: mohammadfaisalkhatri@gmail.com
 [linkedin]: https://www.linkedin.com/in/faisalkhatri/
+[twitter]: https://twitter.com/mfaisal_khatri
