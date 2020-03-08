@@ -2,7 +2,6 @@ package com.faisalkhatri.okhttppoc;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.testng.Assert.assertEquals;
 
@@ -18,7 +17,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import io.restassured.http.ContentType;
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -26,43 +24,45 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * @since Mar 7, 2020
+ * @since Mar 8, 2020
  *
  */
-public class TestPostRequest {
+public class TestPutReqests {
 
 	Logger					log	= LogManager.getLogger (TestPostRequest.class);
 	private final String	url	= "https://reqres.in";
 
 	/**
-	 * @since Mar 7, 2020
-	 * @return postData
+	 * @since Mar 8, 2020
+	 * @return putData
 	 */
-	@DataProvider (name = "postData")
-	public Iterator <Object []> postData () {
-		final List <Object []> postData = new ArrayList <> ();
-		postData.add (new Object [] { "Rahul", "QA" });
-		postData.add (new Object [] { "Jane", "Sr.Dev" });
-		postData.add (new Object [] { "Albert", "Dev" });
-		postData.add (new Object [] { "Johnny", "Project Manager" });
-		return postData.iterator ();
+	@DataProvider (name = "putData")
+	public Iterator <Object []> putData () {
+		final List <Object []> putData = new ArrayList <> ();
+		putData.add (new Object [] { 2, "Michael", "QA Lead" });
+		putData.add (new Object [] { 958, "Yuan", "Project Architect" });
+		return putData.iterator ();
 	}
 
 	/**
+	 * Executing Put Request using Rest Assured.
+	 *
+	 * @since Mar 8, 2020
+	 * @param id
 	 * @param name
 	 * @param job
-	 * @since Mar 7, 2020
 	 */
-	@Test (dataProvider = "postData")
-	public void testPostWithRestAssured (final String name, final String job) {
+	@Test (dataProvider = "putData")
+	public void testPutWithRestAssured (final int id, final String name, final String job) {
+
 		final PostData postData = new PostData (name, job);
 		final String response = given ().contentType (ContentType.JSON)
 			.body (postData)
 			.when ()
-			.post (this.url + "/api/users")
+			.put (this.url + "/api/users/" + id)
 			.then ()
 			.assertThat ()
-			.statusCode (201)
+			.statusCode (200)
 			.and ()
 			.assertThat ()
 			.body ("name", equalTo (name))
@@ -70,26 +70,28 @@ public class TestPostRequest {
 			.assertThat ()
 			.body ("job", equalTo (job))
 			.and ()
-			.assertThat ()
-			.body ("id", notNullValue ())
-			.and ()
 			.extract ()
 			.response ()
 			.body ()
 			.asString ();
-		
+
 		this.log.info (response);
 
 	}
 
 	/**
-	 * @since Mar 7, 2020
+	 * Executing Put Request using OkHttp
+	 *
+	 * @since Mar 8, 2020
+	 * @param id
 	 * @param name
 	 * @param job
 	 * @throws IOException
+	 *
 	 */
-	@Test (dataProvider = "postData")
-	public void testPostWithOkHttp (final String name, final String job) throws IOException {
+	@Test (dataProvider = "putData")
+	public void testPutWithOkHttp (final int id, final String name, final String job)
+		throws IOException {
 		final MediaType JSON = MediaType.parse ("application/json; charset=utf-8");
 		final PostData postData = new PostData (name, job);
 
@@ -98,9 +100,9 @@ public class TestPostRequest {
 		final JSONObject json = new JSONObject (postData);
 		final RequestBody requestBody = RequestBody.create (json.toString (), JSON);
 
-		final Request request = new Request.Builder ().url (this.url + "/api/users")
+		final Request request = new Request.Builder ().url (this.url + "/api/users" + id)
 			.addHeader ("Content-Type", "application/json;charset=utf-8")
-			.post (requestBody)
+			.put (requestBody)
 			.build ();
 
 		final Response response = client.newCall (request)
@@ -115,45 +117,10 @@ public class TestPostRequest {
 		this.log.info (responseBody);
 
 		final JSONObject jsonResponse = new JSONObject (responseBody);
-		assertEquals (statusCode, 201);
+		assertEquals (statusCode, 200);
 		assertThat (jsonResponse.getString ("name"), equalTo (name));
 		assertThat (jsonResponse.getString ("job"), equalTo (job));
-		assertThat (jsonResponse.getString ("id"), notNullValue ());
 
 	}
 
-	/**
-	 * @since Mar 7, 2020
-	 * @param name
-	 * @param job
-	 * @throws IOException
-	 */
-	@Test (dataProvider = "postData")
-	public void testPostwithOkHttpForm (final String name, final String job) throws IOException {
-		final OkHttpClient client = new OkHttpClient ();
-		final RequestBody formBody = new FormBody.Builder ().add ("name", name)
-			.add ("job", job)
-			.build ();
-		final Request request = new Request.Builder ().url (this.url + "/api/users")
-			.post (formBody)
-			.build ();
-
-		final Response response = client.newCall (request)
-			.execute ();
-
-		final int statusCode = response.code ();
-		this.log.info (statusCode);
-
-		final String responseBody = response.body ()
-			.string ();
-
-		this.log.info (responseBody);
-
-		final JSONObject jsonResponse = new JSONObject (responseBody);
-		assertEquals (statusCode, 201);
-		assertThat (jsonResponse.getString ("name"), equalTo (name));
-		assertThat (jsonResponse.getString ("job"), equalTo (job));
-		assertThat (jsonResponse.getString ("id"), notNullValue ());
-
-	}
 }
