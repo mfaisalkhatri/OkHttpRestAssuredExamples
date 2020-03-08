@@ -4,6 +4,7 @@
 - Hamcrest Matchers and TestNG asserts are used for assertions.
 - TestNG Listeners are used to capture the events in log.
 - Log4j is used to capture logs.
+- Rest APIs on https://reqres.in/ have been used for testing.
 
 ## :question: Need Assistance?
 
