@@ -9,7 +9,7 @@
 
 - Discuss your queries by writing to me @ [mohammadfaisalkhatri@gmail.com][mail] or you can ping me on the following social media sites:
 - Twitter: @mfaisal_khatri 
-- LinkedIn: Mohammad Faisal Khatri
+- LinkedIn: Mohammad Faisal Khatri[linkedin]
 
 
 ## :star2: What you do if you like the project?
@@ -20,3 +20,4 @@
 
 
 [mail]: mohammadfaisalkhatri@gmail.com
+[linkedin]: https://www.linkedin.com/in/faisalkhatri/
