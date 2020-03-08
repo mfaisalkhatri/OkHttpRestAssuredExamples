@@ -27,21 +27,21 @@ import okhttp3.Response;
  * @since Mar 8, 2020
  *
  */
-public class TestPutReqests {
+public class TestPatchRequests {
 
-	Logger					log	= LogManager.getLogger (TestPostRequest.class);
+	Logger					log	= LogManager.getLogger (TestPatchRequests.class);
 	private final String	url	= "https://reqres.in";
 
 	/**
 	 * @since Mar 8, 2020
 	 * @return putData
 	 */
-	@DataProvider (name = "putData")
-	public Iterator <Object []> putData () {
-		final List <Object []> putData = new ArrayList <> ();
-		putData.add (new Object [] { 2, "Michael", "QA Lead" });
-		putData.add (new Object [] { 958, "Yuan", "Project Architect" });
-		return putData.iterator ();
+	@DataProvider (name = "patchData")
+	public Iterator <Object []> patchData () {
+		final List <Object []> patchData = new ArrayList <> ();
+		patchData.add (new Object [] { 2, "Michael", "QA Lead" });
+		patchData.add (new Object [] { 958, "Yuan", "Project Architect" });
+		return patchData.iterator ();
 	}
 
 	/**
@@ -52,14 +52,14 @@ public class TestPutReqests {
 	 * @param name
 	 * @param job
 	 */
-	@Test (dataProvider = "putData")
-	public void testPutWithRestAssured (final int id, final String name, final String job) {
+	@Test (dataProvider = "patchData")
+	public void testPatchWithRestAssured (final int id, final String name, final String job) {
 
 		final PostData postData = new PostData (name, job);
 		final String response = given ().contentType (ContentType.JSON)
 			.body (postData)
 			.when ()
-			.put (this.url + "/api/users/" + id)
+			.patch (this.url + "/api/users/" + id)
 			.then ()
 			.assertThat ()
 			.statusCode (200)
@@ -89,8 +89,8 @@ public class TestPutReqests {
 	 * @throws IOException
 	 *
 	 */
-	@Test (dataProvider = "putData")
-	public void testPutWithOkHttp (final int id, final String name, final String job)
+	@Test (dataProvider = "patchData")
+	public void testPatchWithOkHttp (final int id, final String name, final String job)
 		throws IOException {
 		final MediaType JSON = MediaType.parse ("application/json; charset=utf-8");
 		final PostData postData = new PostData (name, job);
@@ -102,7 +102,7 @@ public class TestPutReqests {
 
 		final Request request = new Request.Builder ().url (this.url + "/api/users" + id)
 			.addHeader ("Content-Type", "application/json;charset=utf-8")
-			.put (requestBody)
+			.patch (requestBody)
 			.build ();
 
 		final Response response = client.newCall (request)

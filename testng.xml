@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="API Test Suite">
+	<listeners>
+		<listener
+			class-name="com.faisalkhatri.okhttppoc.TestListener" />
+	</listeners>
+
+	<test name="Test">
+		<classes>
+			<class name="com.faisalkhatri.okhttppoc.TestGetRequests">
+				<methods>
+					<include name="testGetRequestWithQueryParamOkHttp" />
+					<include name="testGetRequestWithOkHttp" />
+					<include name="testGetRequestWithQueryParamWithRestAssured" />
+					<include name="testGetRequestWithRestAssured" />
+				</methods>
+			</class>
+			<class name="com.faisalkhatri.okhttppoc.TestPostRequest">
+				<methods>
+					<include name="testPostWithOkHttp" />
+					<include name="testPostWithRestAssured" />
+					<include name="testPostwithOkHttpForm" />
+				</methods>
+			</class>
+
+			<class name="com.faisalkhatri.okhttppoc.TestPutRequests">
+				<methods>
+					<include name="testPutWithOkHttp" />
+					<include name="testPutWithRestAssured" />
+				</methods>
+			</class>
+			<class name="com.faisalkhatri.okhttppoc.TestPatchRequests">
+				<methods>
+					<include name="testPatchWithOkHttp" />
+					<include name="testPatchWithRestAssured" />
+				</methods>
+			</class>
+			<class name="com.faisalkhatri.okhttppoc.TestDeleteRequests">
+				<methods>
+					<include name="testDeleteUsingOkHttp" />
+					<include name="testDeleUsingRestAsured" />
+				</methods>
+			</class>
+
+		</classes>
+	</test> <!-- Test -->
+</suite> <!-- Suite -->

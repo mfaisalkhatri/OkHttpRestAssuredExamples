@@ -23,7 +23,7 @@ import okhttp3.Response;
  */
 public class TestDeleteRequests {
 
-	Logger	log	= LogManager.getLogger (TestGetRequests.class);
+	Logger	log	= LogManager.getLogger (TestDeleteRequests.class);
 	String	url	= "https://reqres.in/api/users/";
 
 	/**
@@ -58,7 +58,6 @@ public class TestDeleteRequests {
 	 */
 	@Test (dataProvider = "deleteUserOkHttp")
 	public void testDeleteUsingOkHttp (final int userId) throws IOException {
-		this.log.info ("Delete Request with OK Http Start!!");
 		final OkHttpClient client = new OkHttpClient ();
 		final Request request = new Request.Builder ().url (this.url + userId)
 			.delete ()
@@ -68,9 +67,6 @@ public class TestDeleteRequests {
 			.execute ();
 		final int statusCode = response.code ();
 		assertEquals (statusCode, 204);
-
-		this.log.info ("Delete Request Execution Successful!");
-
 	}
 
 	/**
@@ -82,14 +78,12 @@ public class TestDeleteRequests {
 	 *
 	 */
 	@Test (dataProvider = "deleteUserRestAssured")
-	public void testDeleteRest (final int userId) {
-		this.log.info ("Delete Request with Rest Assured Start!!");
+	public void testDeleUsingRestAsured (final int userId) {
 		given ().when ()
 			.delete (this.url + userId)
 			.then ()
 			.assertThat ()
 			.statusCode (204);
-		this.log.info ("Delete Request Execution Successful!");
 	}
 
 }

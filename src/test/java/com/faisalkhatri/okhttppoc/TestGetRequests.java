@@ -50,7 +50,7 @@ public class TestGetRequests {
 	 *
 	 */
 	@Test (dataProvider = "getUserData")
-	public void testGetRequest (final int userId) throws IOException {
+	public void testGetRequestWithOkHttp (final int userId) throws IOException {
 		final OkHttpClient client = new OkHttpClient ();
 		final Request request = new Request.Builder ().url (this.url + userId)
 			.get ()
@@ -60,14 +60,15 @@ public class TestGetRequests {
 			.execute ();
 		final String responseBody = response.body ()
 			.string ();
-		final JSONObject jsonResponse = new JSONObject (responseBody);
 		final int statusCode = response.code ();
-		this.log.info (statusCode);
 		this.log.info (responseBody);
 
 		assertEquals (statusCode, 200);
-		assertThat (jsonResponse.getInt ("data.id"), equalTo (userId));
-		assertThat (jsonResponse.getString ("first_name"), equalTo ("Janet"));
+
+		final JSONObject jsonResponse = new JSONObject (responseBody);
+		final int id = jsonResponse.getJSONObject ("data")
+			.getInt ("id");
+		assertThat (id, equalTo (userId));
 	}
 
 	/**
@@ -78,7 +79,7 @@ public class TestGetRequests {
 	 * @since Mar 7, 2020
 	 */
 	@Test (dataProvider = "getUserData")
-	public void testGetRest (final int userId) {
+	public void testGetRequestWithRestAssured (final int userId) {
 		given ().when ()
 			.get (this.url + userId)
 			.then ()
@@ -104,7 +105,7 @@ public class TestGetRequests {
 	 * @param userPage
 	 */
 	@Test (dataProvider = "getUserData")
-	public void testRestGetRequestWithQueryParam (final int userPage) {
+	public void testGetRequestWithQueryParamWithRestAssured (final int userPage) {
 		given ().when ()
 			.queryParam ("page", userPage)
 			.get (this.url)
