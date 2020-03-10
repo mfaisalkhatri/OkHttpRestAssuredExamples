@@ -53,7 +53,7 @@ public class TestPostRequest {
 	 * @param job
 	 * @since Mar 7, 2020
 	 */
-	@Test (dataProvider = "postData")
+	@Test (dataProvider = "postData", groups = "PostTests")
 	public void testPostWithRestAssured (final String name, final String job) {
 		final PostData postData = new PostData (name, job);
 		final String response = given ().contentType (ContentType.JSON)
@@ -77,7 +77,7 @@ public class TestPostRequest {
 			.response ()
 			.body ()
 			.asString ();
-		
+
 		this.log.info (response);
 
 	}
@@ -88,7 +88,7 @@ public class TestPostRequest {
 	 * @param job
 	 * @throws IOException
 	 */
-	@Test (dataProvider = "postData")
+	@Test (dataProvider = "postData", groups = "PostTests")
 	public void testPostWithOkHttp (final String name, final String job) throws IOException {
 		final MediaType JSON = MediaType.parse ("application/json; charset=utf-8");
 		final PostData postData = new PostData (name, job);
@@ -128,7 +128,7 @@ public class TestPostRequest {
 	 * @param job
 	 * @throws IOException
 	 */
-	@Test (dataProvider = "postData")
+	@Test (dataProvider = "postData", groups = "PostTests")
 	public void testPostwithOkHttpForm (final String name, final String job) throws IOException {
 		final OkHttpClient client = new OkHttpClient ();
 		final RequestBody formBody = new FormBody.Builder ().add ("name", name)

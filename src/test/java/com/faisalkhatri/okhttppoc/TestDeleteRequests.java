@@ -56,7 +56,7 @@ public class TestDeleteRequests {
 	 * @throws IOException
 	 *
 	 */
-	@Test (dataProvider = "deleteUserOkHttp")
+	@Test (dataProvider = "deleteUserOkHttp", groups = "DeleteTests")
 	public void testDeleteUsingOkHttp (final int userId) throws IOException {
 		final OkHttpClient client = new OkHttpClient ();
 		final Request request = new Request.Builder ().url (this.url + userId)
@@ -77,7 +77,7 @@ public class TestDeleteRequests {
 	 *
 	 *
 	 */
-	@Test (dataProvider = "deleteUserRestAssured")
+	@Test (dataProvider = "deleteUserRestAssured", groups = "DeleteTests")
 	public void testDeleUsingRestAsured (final int userId) {
 		given ().when ()
 			.delete (this.url + userId)

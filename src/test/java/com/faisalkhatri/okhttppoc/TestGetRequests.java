@@ -49,7 +49,7 @@ public class TestGetRequests {
 	 * @throws IOException
 	 *
 	 */
-	@Test (dataProvider = "getUserData")
+	@Test (dataProvider = "getUserData", groups = "GetTests")
 	public void testGetRequestWithOkHttp (final int userId) throws IOException {
 		final OkHttpClient client = new OkHttpClient ();
 		final Request request = new Request.Builder ().url (this.url + userId)
@@ -78,7 +78,7 @@ public class TestGetRequests {
 	 *
 	 * @since Mar 7, 2020
 	 */
-	@Test (dataProvider = "getUserData")
+	@Test (dataProvider = "getUserData", groups = "GetTests")
 	public void testGetRequestWithRestAssured (final int userId) {
 		given ().when ()
 			.get (this.url + userId)
@@ -104,7 +104,7 @@ public class TestGetRequests {
 	 * @since Mar 7, 2020
 	 * @param userPage
 	 */
-	@Test (dataProvider = "getUserData")
+	@Test (dataProvider = "getUserData", groups = "GetTests")
 	public void testGetRequestWithQueryParamWithRestAssured (final int userPage) {
 		given ().when ()
 			.queryParam ("page", userPage)
@@ -128,7 +128,7 @@ public class TestGetRequests {
 	 * @param userPage
 	 * @throws IOException
 	 */
-	@Test (dataProvider = "getUserData")
+	@Test (dataProvider = "getUserData", groups = "GetTests")
 	public void testGetRequestWithQueryParamOkHttp (final int userPage) throws IOException {
 		final OkHttpClient client = new OkHttpClient ();
 		final HttpUrl.Builder urlBuilder = HttpUrl.parse (this.url)

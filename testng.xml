@@ -5,8 +5,7 @@
 		<listener
 			class-name="com.faisalkhatri.okhttppoc.TestListener" />
 	</listeners>
-
-	<test name="Test">
+	<test name="AllTests" enabled="true">
 		<classes>
 			<class name="com.faisalkhatri.okhttppoc.TestGetRequests">
 				<methods>
@@ -42,7 +41,28 @@
 					<include name="testDeleUsingRestAsured" />
 				</methods>
 			</class>
-
 		</classes>
 	</test> <!-- Test -->
+
+	<test name="GetTests" enabled = "false">
+		<groups>
+			<run>
+				<exclude name="GetTests" />
+				<exclude name="PostTests" />
+				<exclude name="PutTests" />
+				<exclude name="PatchTests" />
+				<include name="DeleteTests" />
+			</run>
+		</groups>
+		<classes>
+			<class name="com.faisalkhatri.okhttppoc.TestGetRequests" />
+			<class name="com.faisalkhatri.okhttppoc.TestPostRequest" />
+			<class name="com.faisalkhatri.okhttppoc.TestPutRequests" />
+			<class name="com.faisalkhatri.okhttppoc.TestPatchRequests" />
+			<class name="com.faisalkhatri.okhttppoc.TestDeleteRequests" />
+		</classes>
+	</test>
+
+
+
 </suite> <!-- Suite -->

@@ -52,7 +52,7 @@ public class TestPatchRequests {
 	 * @param name
 	 * @param job
 	 */
-	@Test (dataProvider = "patchData")
+	@Test (dataProvider = "patchData", groups = "PatchTests")
 	public void testPatchWithRestAssured (final int id, final String name, final String job) {
 
 		final PostData postData = new PostData (name, job);
@@ -89,7 +89,7 @@ public class TestPatchRequests {
 	 * @throws IOException
 	 *
 	 */
-	@Test (dataProvider = "patchData")
+	@Test (dataProvider = "patchData", groups = "PatchTests")
 	public void testPatchWithOkHttp (final int id, final String name, final String job)
 		throws IOException {
 		final MediaType JSON = MediaType.parse ("application/json; charset=utf-8");
