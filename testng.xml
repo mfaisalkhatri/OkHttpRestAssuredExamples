@@ -47,10 +47,10 @@
 	<test name="GetTests" enabled = "false">
 		<groups>
 			<run>
-				<exclude name="GetTests" />
-				<exclude name="PostTests" />
-				<exclude name="PutTests" />
-				<exclude name="PatchTests" />
+				<include name="GetTests" />
+				<include name="PostTests" />
+				<include name="PutTests" />
+				<include name="PatchTests" />
 				<include name="DeleteTests" />
 			</run>
 		</groups>
