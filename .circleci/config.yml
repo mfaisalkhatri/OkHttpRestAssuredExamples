@@ -3,13 +3,13 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:14-jdk-oracle
+      - image: circleci/openjdk:latest
     steps:
       - checkout
       - run: mvn clean install -DskipTests
   test:
     docker:
-      - image: circleci/openjdk:14-jdk-oracle
+      - image: circleci/openjdk:latest
     steps:
       - checkout
       - run: mvn clean test
