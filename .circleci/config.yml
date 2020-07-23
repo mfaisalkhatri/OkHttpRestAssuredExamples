@@ -19,3 +19,4 @@ workflows:
     jobs:
       - build
       - test
+      
