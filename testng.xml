@@ -5,7 +5,7 @@
 		<listener
 			class-name="com.faisalkhatri.okhttppoc.TestListener" />
 	</listeners>
-	<test name="AllTests" enabled="true">
+	<test name="AllTests">
 		<classes>
 			<class name="com.faisalkhatri.okhttppoc.TestGetRequests">
 				<methods>
@@ -62,7 +62,5 @@
 			<class name="com.faisalkhatri.okhttppoc.TestDeleteRequests" />
 		</classes>
 	</test>
-
-
 
 </suite> <!-- Suite -->
