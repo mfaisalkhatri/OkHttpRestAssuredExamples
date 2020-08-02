@@ -7,6 +7,12 @@
 	</listeners>
 	<test name="AllTests">
 		<classes>
+			<class name="com.faisalkhatri.okhttppoc.TestAuthentication">
+				<methods>
+					<include name="testAuthenticationToken" />
+					<include name="testAuthToken" />
+				</methods>
+			</class>
 			<class name="com.faisalkhatri.okhttppoc.TestGetRequests">
 				<methods>
 					<include name="testGetRequestWithQueryParamOkHttp" />
@@ -44,7 +50,7 @@
 		</classes>
 	</test> <!-- Test -->
 
-	<test name="GetTests" enabled = "false">
+	<test name="GetTests" enabled="false">
 		<groups>
 			<run>
 				<include name="GetTests" />
@@ -62,5 +68,4 @@
 			<class name="com.faisalkhatri.okhttppoc.TestDeleteRequests" />
 		</classes>
 	</test>
-
 </suite> <!-- Suite -->
