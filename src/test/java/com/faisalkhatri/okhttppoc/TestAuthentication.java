@@ -104,7 +104,8 @@ public class TestAuthentication {
      */
     @Test (dataProvider = "getAuthenticationData")
     public void testAuthToken (String email, String password) {
-        getToken (email, password).get ("token");
+        System.out.println ("Token is" + getToken (email, password).get ("token")
+            .toString ());
 
     }
 }
