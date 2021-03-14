@@ -21,6 +21,13 @@
 					<include name="testGetRequestWithRestAssured" />
 				</methods>
 			</class>
+			<class name="com.faisalkhatri.okhttppoc.TestGetRequestWithRestAssuredConfig">
+				<methods>
+					<include name="testGetRequestwithRestAssured" />
+				</methods>
+
+
+			</class>
 			<class name="com.faisalkhatri.okhttppoc.TestPostRequest">
 				<methods>
 					<include name="testPostWithOkHttp" />
