@@ -2,7 +2,6 @@ package com.faisalkhatri.okhttppoc;
 
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.builder.ResponseBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
@@ -26,7 +25,6 @@ public class SetupConfig {
                 .build();
 
         ResponseSpecification response = new ResponseSpecBuilder()
-                .expectStatusCode(200)
                 .expectResponseTime(lessThan(5000L))
                 .build();
 
