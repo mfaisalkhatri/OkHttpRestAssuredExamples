@@ -35,6 +35,11 @@
 					<include name="testPostwithOkHttpForm" />
 				</methods>
 			</class>
+			<class name="com.faisalkhatri.okhttppoc.PostRequestBuilderExample">
+				<methods>
+					<include name="postUsingBuilderPatternWithRestAssured" />
+				</methods>
+			</class>
 
 			<class name="com.faisalkhatri.okhttppoc.TestPutRequests">
 				<methods>
