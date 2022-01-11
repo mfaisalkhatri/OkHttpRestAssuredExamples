@@ -24,7 +24,7 @@ import data.UserData;
 import org.testng.annotations.Test;
 
 
-public class PostRequestBuilderExample extends SetupConfig {
+public class TestPostRequestBuilderExample extends SetupConfig {
 
 
     @Test

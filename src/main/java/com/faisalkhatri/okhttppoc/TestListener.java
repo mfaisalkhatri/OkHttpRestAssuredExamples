@@ -41,7 +41,6 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestStart (final ITestResult result) {
-        // TODO Auto-generated method stub
         logMessage ("Test Execution Started...." + result.getName ());
     }
 
