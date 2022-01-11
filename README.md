@@ -16,8 +16,9 @@ This project is the outcome of my self-learning the API Testing Automation frame
 I heard a lot about Rest-Assured and OkHttp and how it made the QA's life easier by helping them to run all the tedious API tests in an efficient way.
   
 Hence, I started learning about these frameworks and have documented all my learnings in this repository.
-I had done a bit of performance check on these tools as well where I found that OkHttp executes tests faster than Rest-Assured
-Checkout the blog here: [API Testing using RestAssured and OkHttp][blog]
+
+Checkout my blog [API Testing using RestAssured and OkHttp][blog] where I talk about these frameworks in details 
+and which one to choose for testing your APIs.
 
 To get a better understanding on API Testing, check [What is API Testing?][blog_apitesting]
 
