@@ -112,7 +112,7 @@ public class TestPatchRequests {
         final JSONObject json = new JSONObject (postData);
         final RequestBody requestBody = RequestBody.create (json.toString (), JSON);
 
-        final Request request = new Request.Builder ().url (URL + "/api/users" + id)
+        final Request request = new Request.Builder ().url (URL + "/api/users/" + id)
             .addHeader ("Content-Type", "application/json;charset=utf-8")
             .patch (requestBody)
             .build ();
