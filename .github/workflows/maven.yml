@@ -9,6 +9,9 @@ on:
       - master
       - issue-*
 
+permissions:
+  contents: write
+
 jobs:
   build_and_test:
     name: Build and Test
@@ -21,7 +24,7 @@ jobs:
       - name: Install Java and Maven
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'adopt'
           cache: maven
 
@@ -54,7 +57,7 @@ jobs:
       - name: Install Java and Maven
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'adopt'
           cache: maven
 
@@ -86,10 +89,9 @@ jobs:
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
             -Dsonar.projectKey=$SONAR_KEY
       - name: Test Report
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v2
         if: success() || failure()
         with:
           name: Test Results
           path: ${{ github.workspace }}/target/surefire-reports/TEST-TestSuite.xml
           reporter: java-junit
-          java-version: 17
