@@ -26,6 +26,7 @@ public class TestGetRequestWithRestAssuredConfig extends SetupConfig {
     @Test(groups = "GetTests")
     public void testGetRequestwithRestAssured() {
         given()
+            .header ("x-api-key", "reqres-free-v1")
                 .when()
                 .get("/api/users/2")
                 .then()

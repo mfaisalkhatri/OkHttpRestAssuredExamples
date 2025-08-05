@@ -43,34 +43,80 @@ import org.testng.annotations.Test;
  */
 public class TestPatchRequests {
 
-    Logger                      log = LogManager.getLogger (TestPatchRequests.class);
     private static final String URL = "https://reqres.in";
+    Logger log = LogManager.getLogger (TestPatchRequests.class);
 
     /**
-     * @since Mar 8, 2020
      * @return putData
+     *
+     * @since Mar 8, 2020
      */
     @DataProvider (name = "patchData")
-    public Iterator<Object []> patchData () {
-        final List<Object []> patchData = new ArrayList<> ();
-        patchData.add (new Object [] { 2, "Michael", "QA Lead" });
-        patchData.add (new Object [] { 958, "Yuan", "Project Architect" });
+    public Iterator<Object[]> patchData () {
+        final List<Object[]> patchData = new ArrayList<> ();
+        patchData.add (new Object[] { 2, "Michael", "QA Lead" });
+        patchData.add (new Object[] { 958, "Yuan", "Project Architect" });
         return patchData.iterator ();
+    }
+
+    /**
+     * Executing Put Request using OkHttp
+     *
+     * @param id
+     * @param name
+     * @param job
+     *
+     * @throws IOException
+     * @since Mar 8, 2020
+     */
+    @Test (dataProvider = "patchData", groups = "PatchTests")
+    public void testPatchWithOkHttp (final int id, final String name, final String job) throws IOException {
+        final MediaType JSON = MediaType.parse ("application/json; charset=utf-8");
+        final PostData postData = new PostData (name, job);
+
+        final OkHttpClient client = new OkHttpClient ();
+
+        final JSONObject json = new JSONObject (postData);
+        final RequestBody requestBody = RequestBody.create (json.toString (), JSON);
+
+        final Request request = new Request.Builder ().url (URL + "/api/users/" + id)
+            .addHeader ("Content-Type", "application/json;charset=utf-8")
+            .header ("x-api-key", "reqres-free-v1")
+            .patch (requestBody)
+            .build ();
+
+        final Response response = client.newCall (request)
+            .execute ();
+
+        final int statusCode = response.code ();
+        this.log.info (statusCode);
+
+        final String responseBody = response.body ()
+            .string ();
+
+        this.log.info (responseBody);
+
+        final JSONObject jsonResponse = new JSONObject (responseBody);
+        assertEquals (statusCode, 200);
+        assertThat (jsonResponse.getString ("name"), equalTo (name));
+        assertThat (jsonResponse.getString ("job"), equalTo (job));
     }
 
     /**
      * Executing Put Request using Rest Assured.
      *
-     * @since Mar 8, 2020
      * @param id
      * @param name
      * @param job
+     *
+     * @since Mar 8, 2020
      */
     @Test (dataProvider = "patchData", groups = "PatchTests")
     public void testPatchWithRestAssured (final int id, final String name, final String job) {
 
         final PostData postData = new PostData (name, job);
         final String response = given ().contentType (ContentType.JSON)
+            .header ("x-api-key", "reqres-free-v1")
             .body (postData)
             .when ()
             .patch (URL + "/api/users/" + id)
@@ -92,47 +138,4 @@ public class TestPatchRequests {
         this.log.info (response);
 
     }
-
-    /**
-     * Executing Put Request using OkHttp
-     *
-     * @since Mar 8, 2020
-     * @param id
-     * @param name
-     * @param job
-     * @throws IOException
-     */
-    @Test (dataProvider = "patchData", groups = "PatchTests")
-    public void testPatchWithOkHttp (final int id, final String name, final String job) throws IOException {
-        final MediaType JSON = MediaType.parse ("application/json; charset=utf-8");
-        final PostData postData = new PostData (name, job);
-
-        final OkHttpClient client = new OkHttpClient ();
-
-        final JSONObject json = new JSONObject (postData);
-        final RequestBody requestBody = RequestBody.create (json.toString (), JSON);
-
-        final Request request = new Request.Builder ().url (URL + "/api/users/" + id)
-            .addHeader ("Content-Type", "application/json;charset=utf-8")
-            .patch (requestBody)
-            .build ();
-
-        final Response response = client.newCall (request)
-            .execute ();
-
-        final int statusCode = response.code ();
-        this.log.info (statusCode);
-
-        final String responseBody = response.body ()
-            .string ();
-
-        this.log.info (responseBody);
-
-        final JSONObject jsonResponse = new JSONObject (responseBody);
-        assertEquals (statusCode, 200);
-        assertThat (jsonResponse.getString ("name"), equalTo (name));
-        assertThat (jsonResponse.getString ("job"), equalTo (job));
-
-    }
-
 }

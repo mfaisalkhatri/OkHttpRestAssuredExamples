@@ -38,38 +38,59 @@ public class TestDeleteRequests {
     private static final String URL = "https://reqres.in/api/users/";
 
     /**
+     * @return deleteUserData using rest assured
+     *
      * @since Mar 8, 2020
-     * @return deleteUserData using okhttp
      */
-    @DataProvider (name = "deleteUserOkHttp")
-    public Iterator<Object []> deleteokHttpUsers () {
-        final List<Object []> deleteData = new ArrayList<> ();
-        deleteData.add (new Object [] { 8 });
+    @DataProvider (name = "deleteUserRestAssured")
+    public Iterator<Object[]> deleteRestUsers () {
+        final List<Object[]> deleteData = new ArrayList<> ();
+        deleteData.add (new Object[] { 2 });
         return deleteData.iterator ();
     }
 
     /**
+     * @return deleteUserData using okhttp
+     *
      * @since Mar 8, 2020
-     * @return deleteUserData using rest assured
      */
-    @DataProvider (name = "deleteUserRestAssured")
-    public Iterator<Object []> deleteRestUsers () {
-        final List<Object []> deleteData = new ArrayList<> ();
-        deleteData.add (new Object [] { 2 });
+    @DataProvider (name = "deleteUserOkHttp")
+    public Iterator<Object[]> deleteokHttpUsers () {
+        final List<Object[]> deleteData = new ArrayList<> ();
+        deleteData.add (new Object[] { 8 });
         return deleteData.iterator ();
+    }
+
+    /**
+     * Executing delete requests using Rest-assured
+     *
+     * @param userId
+     *
+     * @since Mar 08, 2020
+     */
+    @Test (dataProvider = "deleteUserRestAssured", groups = "DeleteTests")
+    public void testDeleUsingRestAsured (final int userId) {
+        given ().when ()
+            .header ("x-api-key", "reqres-free-v1")
+            .delete (URL + userId)
+            .then ()
+            .assertThat ()
+            .statusCode (204);
     }
 
     /**
      * Executing delete request using okhttp
      *
-     * @since Mar 8, 2020
      * @param userId
+     *
      * @throws IOException
+     * @since Mar 8, 2020
      */
     @Test (dataProvider = "deleteUserOkHttp", groups = "DeleteTests")
     public void testDeleteUsingOkHttp (final int userId) throws IOException {
         final OkHttpClient client = new OkHttpClient ();
         final Request request = new Request.Builder ().url (URL + userId)
+            .header ("x-api-key", "reqres-free-v1")
             .delete ()
             .build ();
 
@@ -78,20 +99,4 @@ public class TestDeleteRequests {
         final int statusCode = response.code ();
         assertEquals (statusCode, 204);
     }
-
-    /**
-     * Executing delete requests using Rest-assured
-     *
-     * @since Mar 08, 2020
-     * @param userId
-     */
-    @Test (dataProvider = "deleteUserRestAssured", groups = "DeleteTests")
-    public void testDeleUsingRestAsured (final int userId) {
-        given ().when ()
-            .delete (URL + userId)
-            .then ()
-            .assertThat ()
-            .statusCode (204);
-    }
-
 }

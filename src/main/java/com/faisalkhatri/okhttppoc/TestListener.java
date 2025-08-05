@@ -28,15 +28,18 @@ import org.testng.ITestResult;
  * @since Mar 8, 2020
  */
 public class TestListener implements ITestListener {
-
     Logger log = LogManager.getLogger (TestListener.class);
 
-    private void logMessage (final String message) {
-        this.log.info ("\n");
-        this.log.info (repeat ("=", 75));
-        this.log.info (message);
-        this.log.info (repeat ("=", 75));
-        this.log.info ("\n");
+    @Override
+    public void onFinish (final ITestContext context) {
+        logMessage ("Test Execution Completed Successfully for all tests!!" + context.getSuite ()
+            .getAllMethods ());
+
+    }
+
+    @Override
+    public void onTestFailure (final ITestResult result) {
+        logMessage ("Test Failed!!!!" + result.getName ());
     }
 
     @Override
@@ -50,16 +53,11 @@ public class TestListener implements ITestListener {
 
     }
 
-    @Override
-    public void onTestFailure (final ITestResult result) {
-        logMessage ("Test Failed!!!!" + result.getName ());
+    private void logMessage (final String message) {
+        this.log.info ("\n");
+        this.log.info (repeat ("=", 75));
+        this.log.info (message);
+        this.log.info (repeat ("=", 75));
+        this.log.info ("\n");
     }
-
-    @Override
-    public void onFinish (final ITestContext context) {
-        logMessage ("Test Execution Completed Successfully for all tests!!" + context.getSuite ()
-            .getAllMethods ());
-
-    }
-
 }

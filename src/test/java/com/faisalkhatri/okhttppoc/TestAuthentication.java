@@ -39,54 +39,18 @@ public class TestAuthentication {
     private static final String URL = "https://reqres.in";
 
     /**
-     * @author Faisal Khatri
-     * @since Aug 2, 2020
-     * @return test data
-     */
-    @DataProvider
-    public Iterator<Object []> getAuthenticationData () {
-        final List<Object []> getTestData = new ArrayList<> ();
-        getTestData.add (new Object [] { "eve.holt@reqres.in", "pistol" });
-        return getTestData.iterator ();
-    }
-
-    /**
-     * @author Faisal Khatri
-     * @since Aug 2, 2020
      * @param email
      * @param password
-     */
-    @Test (dataProvider = "getAuthenticationData")
-    public void testAuthenticationToken (String email, String password) {
-        final AuthenticationPojo requestBody = new AuthenticationPojo (email, password);
-
-        given ().contentType (ContentType.JSON)
-            .body (requestBody)
-            .when ()
-            .log ()
-            .all ()
-            .post (URL + "/api/register")
-            .then ()
-            .assertThat ()
-            .statusCode (200)
-            .log ()
-            .all ()
-            .body ("id", notNullValue ())
-            .and ()
-            .body ("token", notNullValue ());
-
-    }
-
-    /**
-     * @author Faisal Khatri
-     * @since Aug 2, 2020
-     * @param email
-     * @param password
+     *
      * @return auth details
+     *
+     * @author Faisal Khatri
+     * @since Aug 2, 2020
      */
     public static Map<String, Object> getToken (String email, String password) {
         final AuthenticationPojo requestBody = new AuthenticationPojo (email, password);
         final String response = given ().contentType (ContentType.JSON)
+            .header ("x-api-key", "reqres-free-v1")
             .body (requestBody)
             .when ()
             .log ()
@@ -113,15 +77,58 @@ public class TestAuthentication {
     }
 
     /**
+     * @return test data
+     *
      * @author Faisal Khatri
      * @since Aug 2, 2020
+     */
+    @DataProvider
+    public Iterator<Object[]> getAuthenticationData () {
+        final List<Object[]> getTestData = new ArrayList<> ();
+        getTestData.add (new Object[] { "eve.holt@reqres.in", "pistol" });
+        return getTestData.iterator ();
+    }
+
+    /**
      * @param email
      * @param password
+     *
+     * @author Faisal Khatri
+     * @since Aug 2, 2020
      */
     @Test (dataProvider = "getAuthenticationData")
     public void testAuthToken (String email, String password) {
         System.out.println ("Token is" + getToken (email, password).get ("token")
             .toString ());
+
+    }
+
+    /**
+     * @param email
+     * @param password
+     *
+     * @author Faisal Khatri
+     * @since Aug 2, 2020
+     */
+    @Test (dataProvider = "getAuthenticationData")
+    public void testAuthenticationToken (String email, String password) {
+        final AuthenticationPojo requestBody = new AuthenticationPojo (email, password);
+
+        given ().contentType (ContentType.JSON)
+            .header ("x-api-key", "reqres-free-v1")
+            .body (requestBody)
+            .when ()
+            .log ()
+            .all ()
+            .post (URL + "/api/register")
+            .then ()
+            .assertThat ()
+            .statusCode (200)
+            .log ()
+            .all ()
+            .body ("id", notNullValue ())
+            .and ()
+            .body ("token", notNullValue ());
 
     }
 }

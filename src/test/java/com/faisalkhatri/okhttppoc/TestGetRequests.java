@@ -41,17 +41,18 @@ import org.testng.annotations.Test;
  */
 public class TestGetRequests {
 
-    Logger                      log = LogManager.getLogger (TestGetRequests.class);
     private static final String URL = "https://reqres.in/api/users/";
+    Logger log = LogManager.getLogger (TestGetRequests.class);
 
     /**
-     * @since Mar 7, 2020
      * @return getUserData
+     *
+     * @since Mar 7, 2020
      */
     @DataProvider (name = "getUserData")
-    public Iterator<Object []> getUsers () {
-        final List<Object []> getData = new ArrayList<> ();
-        getData.add (new Object [] { 2 });
+    public Iterator<Object[]> getUsers () {
+        final List<Object[]> getData = new ArrayList<> ();
+        getData.add (new Object[] { 2 });
         return getData.iterator ();
     }
 
@@ -59,13 +60,15 @@ public class TestGetRequests {
      * Executing get request using okhttp
      *
      * @param userId
-     * @since Mar 7, 2020
+     *
      * @throws IOException
+     * @since Mar 7, 2020
      */
     @Test (dataProvider = "getUserData", groups = "GetTests")
     public void testGetRequestWithOkHttp (final int userId) throws IOException {
         final OkHttpClient client = new OkHttpClient ();
         final Request request = new Request.Builder ().url (URL + userId)
+            .header ("x-api-key", "reqres-free-v1")
             .get ()
             .build ();
 
@@ -85,40 +88,48 @@ public class TestGetRequests {
     }
 
     /**
-     * Executing get requests using Rest-assured
+     * @param userPage
      *
-     * @param userId
+     * @throws IOException
      * @since Mar 7, 2020
      */
     @Test (dataProvider = "getUserData", groups = "GetTests")
-    public void testGetRequestWithRestAssured (final int userId) {
-        given ().when ()
-            .get (URL + userId)
-            .then ()
-            .statusCode (200)
-            .and ()
-            .assertThat ()
-            .body ("data.id", equalTo (userId));
+    public void testGetRequestWithQueryParamOkHttp (final int userPage) throws IOException {
+        final OkHttpClient client = new OkHttpClient ();
+        final HttpUrl.Builder urlBuilder = HttpUrl.parse (URL)
+            .newBuilder ();
+        urlBuilder.addQueryParameter ("page", String.valueOf (userPage));
 
-        final int statusCode = given ().when ()
-            .get (URL + userId)
-            .statusCode ();
+        final String currentUrl = urlBuilder.build ()
+            .toString ();
+        final Request request = new Request.Builder ().url (currentUrl).header ("x-api-key", "reqres-free-v1")
+            .build ();
+        final Response response = client.newCall (request)
+            .execute ();
+        final String responseBody = response.body ()
+            .string ();
+        final int statusCode = response.code ();
         this.log.info (statusCode);
-
-        final String responseBody = given ().when ()
-            .get (URL + userId)
-            .getBody ()
-            .asString ();
         this.log.info (responseBody);
+        assertEquals (statusCode, 200);
+        final JSONObject jsonResponse = new JSONObject (responseBody);
+        assertThat (jsonResponse.getInt ("page"), equalTo (userPage));
+        final String firstName = jsonResponse.getJSONArray ("data")
+            .getJSONObject (0)
+            .getString ("first_name");
+        assertThat (firstName, equalTo ("Michael"));
+
     }
 
     /**
-     * @since Mar 7, 2020
      * @param userPage
+     *
+     * @since Mar 7, 2020
      */
     @Test (dataProvider = "getUserData", groups = "GetTests")
     public void testGetRequestWithQueryParamWithRestAssured (final int userPage) {
         given ().when ()
+            .header ("x-api-key", "reqres-free-v1")
             .queryParam ("page", userPage)
             .get (URL)
             .then ()
@@ -136,35 +147,32 @@ public class TestGetRequests {
     }
 
     /**
+     * Executing get requests using Rest-assured
+     *
+     * @param userId
+     *
      * @since Mar 7, 2020
-     * @param userPage
-     * @throws IOException
      */
     @Test (dataProvider = "getUserData", groups = "GetTests")
-    public void testGetRequestWithQueryParamOkHttp (final int userPage) throws IOException {
-        final OkHttpClient client = new OkHttpClient ();
-        final HttpUrl.Builder urlBuilder = HttpUrl.parse (URL)
-            .newBuilder ();
-        urlBuilder.addQueryParameter ("page", String.valueOf (userPage));
+    public void testGetRequestWithRestAssured (final int userId) {
+        given ().when ()
+            .header ("x-api-key", "reqres-free-v1")
+            .get (URL + userId)
+            .then ()
+            .statusCode (200)
+            .and ()
+            .assertThat ()
+            .body ("data.id", equalTo (userId));
 
-        final String currentUrl = urlBuilder.build ()
-            .toString ();
-        final Request request = new Request.Builder ().url (currentUrl)
-            .build ();
-        final Response response = client.newCall (request)
-            .execute ();
-        final String responseBody = response.body ()
-            .string ();
-        final int statusCode = response.code ();
+        final int statusCode = given ().when ()
+            .get (URL + userId)
+            .statusCode ();
         this.log.info (statusCode);
-        this.log.info (responseBody);
-        assertEquals (statusCode, 200);
-        final JSONObject jsonResponse = new JSONObject (responseBody);
-        assertThat (jsonResponse.getInt ("page"), equalTo (userPage));
-        final String firstName = jsonResponse.getJSONArray ("data")
-            .getJSONObject (0)
-            .getString ("first_name");
-        assertThat (firstName, equalTo ("Michael"));
 
+        final String responseBody = given ().when ()
+            .get (URL + userId)
+            .getBody ()
+            .asString ();
+        this.log.info (responseBody);
     }
 }

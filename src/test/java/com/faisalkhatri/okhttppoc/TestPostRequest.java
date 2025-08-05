@@ -45,32 +45,77 @@ import org.testng.annotations.Test;
  */
 public class TestPostRequest {
 
-    Logger                      log = LogManager.getLogger (TestPostRequest.class);
     private static final String URL = "https://reqres.in";
+    Logger log = LogManager.getLogger (TestPostRequest.class);
 
     /**
-     * @since Mar 7, 2020
      * @return postData
+     *
+     * @since Mar 7, 2020
      */
     @DataProvider (name = "postData")
-    public Iterator<Object []> postData () {
-        final List<Object []> postData = new ArrayList<> ();
-        postData.add (new Object [] { "Rahul", "QA" });
-        postData.add (new Object [] { "Jane", "Sr.Dev" });
-        postData.add (new Object [] { "Albert", "Dev" });
-        postData.add (new Object [] { "Johnny", "Project Manager" });
+    public Iterator<Object[]> postData () {
+        final List<Object[]> postData = new ArrayList<> ();
+        postData.add (new Object[] { "Rahul", "QA" });
+        postData.add (new Object[] { "Jane", "Sr.Dev" });
+        postData.add (new Object[] { "Albert", "Dev" });
+        postData.add (new Object[] { "Johnny", "Project Manager" });
         return postData.iterator ();
     }
 
     /**
      * @param name
      * @param job
+     *
+     * @throws IOException
+     * @since Mar 7, 2020
+     */
+    @Test (dataProvider = "postData", groups = "PostTests")
+    public void testPostWithOkHttp (final String name, final String job) throws IOException {
+        final MediaType JSON = MediaType.parse ("application/json; charset=utf-8");
+        final PostData postData = new PostData (name, job);
+
+        final OkHttpClient client = new OkHttpClient ();
+
+        final JSONObject json = new JSONObject (postData);
+        final RequestBody requestBody = RequestBody.create (json.toString (), JSON);
+
+        final Request request = new Request.Builder ().url (URL + "/api/users")
+            .addHeader ("Content-Type", "application/json;charset=utf-8")
+            .header ("x-api-key", "reqres-free-v1")
+            .post (requestBody)
+            .build ();
+
+        final Response response = client.newCall (request)
+            .execute ();
+
+        final int statusCode = response.code ();
+        this.log.info (statusCode);
+
+        final String responseBody = response.body ()
+            .string ();
+
+        this.log.info (responseBody);
+
+        final JSONObject jsonResponse = new JSONObject (responseBody);
+        assertEquals (statusCode, 201);
+        assertThat (jsonResponse.getString ("name"), equalTo (name));
+        assertThat (jsonResponse.getString ("job"), equalTo (job));
+        assertThat (jsonResponse.getString ("id"), notNullValue ());
+
+    }
+
+    /**
+     * @param name
+     * @param job
+     *
      * @since Mar 7, 2020
      */
     @Test (dataProvider = "postData", groups = "PostTests")
     public void testPostWithRestAssured (final String name, final String job) {
         final PostData postData = new PostData (name, job);
         final String response = given ().contentType (ContentType.JSON)
+            .header ("x-api-key", "reqres-free-v1")
             .body (postData)
             .when ()
             .post (URL + "/api/users")
@@ -97,50 +142,11 @@ public class TestPostRequest {
     }
 
     /**
-     * @since Mar 7, 2020
      * @param name
      * @param job
+     *
      * @throws IOException
-     */
-    @Test (dataProvider = "postData", groups = "PostTests")
-    public void testPostWithOkHttp (final String name, final String job) throws IOException {
-        final MediaType JSON = MediaType.parse ("application/json; charset=utf-8");
-        final PostData postData = new PostData (name, job);
-
-        final OkHttpClient client = new OkHttpClient ();
-
-        final JSONObject json = new JSONObject (postData);
-        final RequestBody requestBody = RequestBody.create (json.toString (), JSON);
-
-        final Request request = new Request.Builder ().url (URL + "/api/users")
-            .addHeader ("Content-Type", "application/json;charset=utf-8")
-            .post (requestBody)
-            .build ();
-
-        final Response response = client.newCall (request)
-            .execute ();
-
-        final int statusCode = response.code ();
-        this.log.info (statusCode);
-
-        final String responseBody = response.body ()
-            .string ();
-
-        this.log.info (responseBody);
-
-        final JSONObject jsonResponse = new JSONObject (responseBody);
-        assertEquals (statusCode, 201);
-        assertThat (jsonResponse.getString ("name"), equalTo (name));
-        assertThat (jsonResponse.getString ("job"), equalTo (job));
-        assertThat (jsonResponse.getString ("id"), notNullValue ());
-
-    }
-
-    /**
      * @since Mar 7, 2020
-     * @param name
-     * @param job
-     * @throws IOException
      */
     @Test (dataProvider = "postData", groups = "PostTests")
     public void testPostwithOkHttpForm (final String name, final String job) throws IOException {
@@ -149,6 +155,7 @@ public class TestPostRequest {
             .add ("job", job)
             .build ();
         final Request request = new Request.Builder ().url (URL + "/api/users")
+            .header ("x-api-key", "reqres-free-v1")
             .post (formBody)
             .build ();
 

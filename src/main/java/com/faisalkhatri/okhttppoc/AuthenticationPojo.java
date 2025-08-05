@@ -21,7 +21,6 @@ import lombok.Data;
 /**
  * @author Faisal Khatri
  * @since Aug 2, 2020
- *
  */
 @Data
 public class AuthenticationPojo {
@@ -30,9 +29,10 @@ public class AuthenticationPojo {
     private String password;
 
     /**
-     *@author Faisal Khatri
-     *@param email
-     *@param password
+     * @param email
+     * @param password
+     *
+     * @author Faisal Khatri
      */
     public AuthenticationPojo (String email, String password) {
         this.email = email;

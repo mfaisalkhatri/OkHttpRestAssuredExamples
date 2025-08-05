@@ -16,6 +16,8 @@
 
 package com.faisalkhatri.okhttppoc;
 
+import static org.hamcrest.Matchers.lessThan;
+
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
@@ -25,24 +27,19 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import org.testng.annotations.BeforeClass;
 
-import static org.hamcrest.Matchers.lessThan;
-
 public class SetupConfig {
 
     @BeforeClass
-    public void setup() {
+    public void setup () {
         RestAssured.baseURI = "https://reqres.in/";
+        RequestSpecification request = new RequestSpecBuilder ().addHeader ("Content-Type", "application/json")
+            .addHeader ("Accept", "application/json")
+            .addFilter (new RequestLoggingFilter ())
+            .addFilter (new ResponseLoggingFilter ())
+            .build ();
 
-        RequestSpecification request = new RequestSpecBuilder()
-                .addHeader("Content-Type", "application/json")
-                .addHeader("Accept", "application/json")
-                .addFilter(new RequestLoggingFilter())
-                .addFilter(new ResponseLoggingFilter())
-                .build();
-
-        ResponseSpecification response = new ResponseSpecBuilder()
-                .expectResponseTime(lessThan(5000L))
-                .build();
+        ResponseSpecification response = new ResponseSpecBuilder ().expectResponseTime (lessThan (5000L))
+            .build ();
 
         RestAssured.requestSpecification = request;
         RestAssured.responseSpecification = response;
