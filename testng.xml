@@ -1,83 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="API Test Suite">
-	<listeners>
-		<listener
-			class-name="com.faisalkhatri.okhttppoc.TestListener" />
-	</listeners>
-	<test name="AllTests">
-		<classes>
-			<class name="com.faisalkhatri.okhttppoc.TestAuthentication">
-				<methods>
-					<include name="testAuthenticationToken" />
-					<include name="testAuthToken" />
-				</methods>
-			</class>
-			<class name="com.faisalkhatri.okhttppoc.TestGetRequests">
-				<methods>
-					<include name="testGetRequestWithQueryParamOkHttp" />
-					<include name="testGetRequestWithOkHttp" />
-					<include name="testGetRequestWithQueryParamWithRestAssured" />
-					<include name="testGetRequestWithRestAssured" />
-				</methods>
-			</class>
-			<class name="com.faisalkhatri.okhttppoc.TestGetRequestWithRestAssuredConfig">
-				<methods>
-					<include name="testGetRequestwithRestAssured" />
-				</methods>
+    <listeners>
+        <listener
+                class-name="com.faisalkhatri.okhttppoc.TestListener"/>
+    </listeners>
+    <test name="API Tests">
+        <classes>
+            <class name="com.faisalkhatri.okhttppoc.TestAuthentication">
+                <methods>
+                    <include name="testAuthenticationToken"/>
+                    <include name="testAuthToken"/>
+                </methods>
+            </class>
+            <class name="com.faisalkhatri.okhttppoc.TestGetRequests">
+                <methods>
+                    <include name="testGetRequestWithQueryParamOkHttp"/>
+                    <include name="testGetRequestWithOkHttp"/>
+                    <include name="testGetRequestWithQueryParamWithRestAssured"/>
+                    <include name="testGetRequestWithRestAssured"/>
+                </methods>
+            </class>
+            <class name="com.faisalkhatri.okhttppoc.TestGetRequestWithRestAssuredConfig">
+                <methods>
+                    <include name="testGetRequestwithRestAssured"/>
+                </methods>
+            </class>
+            <class name="com.faisalkhatri.okhttppoc.TestPostRequest">
+                <methods>
+                    <include name="testPostWithOkHttp"/>
+                    <include name="testPostWithRestAssured"/>
+                    <include name="testPostwithOkHttpForm"/>
+                </methods>
+            </class>
+            <class name="com.faisalkhatri.okhttppoc.TestPostRequestBuilderExample">
+                <methods>
+                    <include name="postUsingBuilderPatternWithRestAssured"/>
+                </methods>
+            </class>
 
-
-			</class>
-			<class name="com.faisalkhatri.okhttppoc.TestPostRequest">
-				<methods>
-					<include name="testPostWithOkHttp" />
-					<include name="testPostWithRestAssured" />
-					<include name="testPostwithOkHttpForm" />
-				</methods>
-			</class>
-			<class name="com.faisalkhatri.okhttppoc.TestPostRequestBuilderExample">
-				<methods>
-					<include name="postUsingBuilderPatternWithRestAssured" />
-				</methods>
-			</class>
-
-			<class name="com.faisalkhatri.okhttppoc.TestPutRequests">
-				<methods>
-					<include name="testPutWithOkHttp" />
-					<include name="testPutWithRestAssured" />
-				</methods>
-			</class>
-			<class name="com.faisalkhatri.okhttppoc.TestPatchRequests">
-				<methods>
-					<include name="testPatchWithOkHttp" />
-					<include name="testPatchWithRestAssured" />
-				</methods>
-			</class>
-			<class name="com.faisalkhatri.okhttppoc.TestDeleteRequests">
-				<methods>
-					<include name="testDeleteUsingOkHttp" />
-					<include name="testDeleUsingRestAsured" />
-				</methods>
-			</class>
-		</classes>
-	</test> <!-- Test -->
-
-	<test name="GetTests" enabled="false">
-		<groups>
-			<run>
-				<include name="GetTests" />
-				<include name="PostTests" />
-				<include name="PutTests" />
-				<include name="PatchTests" />
-				<include name="DeleteTests" />
-			</run>
-		</groups>
-		<classes>
-			<class name="com.faisalkhatri.okhttppoc.TestGetRequests" />
-			<class name="com.faisalkhatri.okhttppoc.TestPostRequest" />
-			<class name="com.faisalkhatri.okhttppoc.TestPutRequests" />
-			<class name="com.faisalkhatri.okhttppoc.TestPatchRequests" />
-			<class name="com.faisalkhatri.okhttppoc.TestDeleteRequests" />
-		</classes>
-	</test>
-</suite> <!-- Suite -->
+            <class name="com.faisalkhatri.okhttppoc.TestPutRequests">
+                <methods>
+                    <include name="testPutWithOkHttp"/>
+                    <include name="testPutWithRestAssured"/>
+                </methods>
+            </class>
+            <class name="com.faisalkhatri.okhttppoc.TestPatchRequests">
+                <methods>
+                    <include name="testPatchWithOkHttp"/>
+                    <include name="testPatchWithRestAssured"/>
+                </methods>
+            </class>
+            <class name="com.faisalkhatri.okhttppoc.TestDeleteRequests">
+                <methods>
+                    <include name="testDeleteUsingOkHttp"/>
+                    <include name="testDeleUsingRestAsured"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="GetTests" enabled="false">
+        <groups>
+            <run>
+                <include name="GetTests"/>
+                <include name="PostTests"/>
+                <include name="PutTests"/>
+                <include name="PatchTests"/>
+                <include name="DeleteTests"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.faisalkhatri.okhttppoc.TestGetRequests"/>
+            <class name="com.faisalkhatri.okhttppoc.TestPostRequest"/>
+            <class name="com.faisalkhatri.okhttppoc.TestPutRequests"/>
+            <class name="com.faisalkhatri.okhttppoc.TestPatchRequests"/>
+            <class name="com.faisalkhatri.okhttppoc.TestDeleteRequests"/>
+        </classes>
+    </test>
+</suite>
