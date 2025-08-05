@@ -81,6 +81,7 @@ public class TestPutRequests {
 
         final Request request = new Request.Builder ().url (URL + "/api/users/" + id)
             .addHeader ("Content-Type", "application/json;charset=utf-8")
+            .header ("x-api-key", "reqres-free-v1")
             .put (requestBody)
             .build ();
 
@@ -116,6 +117,7 @@ public class TestPutRequests {
 
         final PostData postData = new PostData (name, job);
         final String response = given ().contentType (ContentType.JSON)
+            .header ("x-api-key", "reqres-free-v1")
             .body (postData)
             .when ()
             .put (URL + "/api/users/" + id)

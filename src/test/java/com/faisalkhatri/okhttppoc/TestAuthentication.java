@@ -50,6 +50,7 @@ public class TestAuthentication {
     public static Map<String, Object> getToken (String email, String password) {
         final AuthenticationPojo requestBody = new AuthenticationPojo (email, password);
         final String response = given ().contentType (ContentType.JSON)
+            .header ("x-api-key", "reqres-free-v1")
             .body (requestBody)
             .when ()
             .log ()
@@ -114,6 +115,7 @@ public class TestAuthentication {
         final AuthenticationPojo requestBody = new AuthenticationPojo (email, password);
 
         given ().contentType (ContentType.JSON)
+            .header ("x-api-key", "reqres-free-v1")
             .body (requestBody)
             .when ()
             .log ()

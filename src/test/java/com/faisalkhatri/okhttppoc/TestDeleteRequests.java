@@ -71,6 +71,7 @@ public class TestDeleteRequests {
     @Test (dataProvider = "deleteUserRestAssured", groups = "DeleteTests")
     public void testDeleUsingRestAsured (final int userId) {
         given ().when ()
+            .header ("x-api-key", "reqres-free-v1")
             .delete (URL + userId)
             .then ()
             .assertThat ()
@@ -89,6 +90,7 @@ public class TestDeleteRequests {
     public void testDeleteUsingOkHttp (final int userId) throws IOException {
         final OkHttpClient client = new OkHttpClient ();
         final Request request = new Request.Builder ().url (URL + userId)
+            .header ("x-api-key", "reqres-free-v1")
             .delete ()
             .build ();
 

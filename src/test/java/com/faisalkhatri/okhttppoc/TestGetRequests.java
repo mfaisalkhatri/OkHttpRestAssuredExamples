@@ -101,7 +101,7 @@ public class TestGetRequests {
 
         final String currentUrl = urlBuilder.build ()
             .toString ();
-        final Request request = new Request.Builder ().url (currentUrl)
+        final Request request = new Request.Builder ().url (currentUrl).header ("x-api-key", "reqres-free-v1")
             .build ();
         final Response response = client.newCall (request)
             .execute ();
@@ -128,6 +128,7 @@ public class TestGetRequests {
     @Test (dataProvider = "getUserData", groups = "GetTests")
     public void testGetRequestWithQueryParamWithRestAssured (final int userPage) {
         given ().when ()
+            .header ("x-api-key", "reqres-free-v1")
             .queryParam ("page", userPage)
             .get (URL)
             .then ()
@@ -154,6 +155,7 @@ public class TestGetRequests {
     @Test (dataProvider = "getUserData", groups = "GetTests")
     public void testGetRequestWithRestAssured (final int userId) {
         given ().when ()
+            .header ("x-api-key", "reqres-free-v1")
             .get (URL + userId)
             .then ()
             .statusCode (200)

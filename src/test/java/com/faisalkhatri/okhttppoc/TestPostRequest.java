@@ -82,6 +82,7 @@ public class TestPostRequest {
 
         final Request request = new Request.Builder ().url (URL + "/api/users")
             .addHeader ("Content-Type", "application/json;charset=utf-8")
+            .header ("x-api-key", "reqres-free-v1")
             .post (requestBody)
             .build ();
 
@@ -114,6 +115,7 @@ public class TestPostRequest {
     public void testPostWithRestAssured (final String name, final String job) {
         final PostData postData = new PostData (name, job);
         final String response = given ().contentType (ContentType.JSON)
+            .header ("x-api-key", "reqres-free-v1")
             .body (postData)
             .when ()
             .post (URL + "/api/users")
@@ -153,6 +155,7 @@ public class TestPostRequest {
             .add ("job", job)
             .build ();
         final Request request = new Request.Builder ().url (URL + "/api/users")
+            .header ("x-api-key", "reqres-free-v1")
             .post (formBody)
             .build ();
 

@@ -29,7 +29,9 @@ public class TestPostRequestBuilderExample extends SetupConfig {
     public void postUsingBuilderPatternWithRestAssured () {
 
         UserData userData = userDataBuilder ();
-        given ().body (userData)
+        given ()
+            .header ("x-api-key", "reqres-free-v1")
+            .body (userData)
             .when ()
             .post ("/api/users")
             .then ()
