@@ -16,12 +16,12 @@ jobs:
 
     steps:
       - name: checkout Git repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Install Java and Maven
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
-          java-version: '15'
+          java-version: '17'
           distribution: 'adopt'
           cache: maven
 
@@ -47,14 +47,14 @@ jobs:
 
     steps:
       - name: checkout Git repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
       - name: Install Java and Maven
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
-          java-version: '15'
+          java-version: '17'
           distribution: 'adopt'
           cache: maven
 
@@ -92,4 +92,4 @@ jobs:
           name: Test Results
           path: ${{ github.workspace }}/target/surefire-reports/TEST-TestSuite.xml
           reporter: java-junit
-          java-version: 11
+          java-version: 17
