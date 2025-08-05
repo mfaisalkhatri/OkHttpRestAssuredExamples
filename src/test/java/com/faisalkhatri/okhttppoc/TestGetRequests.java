@@ -68,6 +68,7 @@ public class TestGetRequests {
     public void testGetRequestWithOkHttp (final int userId) throws IOException {
         final OkHttpClient client = new OkHttpClient ();
         final Request request = new Request.Builder ().url (URL + userId)
+            .header ("x-api-key", "reqres-free-v1")
             .get ()
             .build ();
 
