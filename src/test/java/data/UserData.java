@@ -23,6 +23,6 @@ import lombok.Data;
 @Builder
 public class UserData {
 
-    private String name;
     private String job;
+    private String name;
 }

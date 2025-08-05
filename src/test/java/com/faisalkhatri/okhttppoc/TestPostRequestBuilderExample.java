@@ -23,32 +23,32 @@ import com.github.javafaker.Faker;
 import data.UserData;
 import org.testng.annotations.Test;
 
-
 public class TestPostRequestBuilderExample extends SetupConfig {
 
-
     @Test
-    public void postUsingBuilderPatternWithRestAssured() {
+    public void postUsingBuilderPatternWithRestAssured () {
 
-        UserData userData = userDataBuilder();
-        given()
-                .body(userData)
-                .when()
-                .post("/api/users")
-                .then()
-                .statusCode(201)
-                .and()
-                .assertThat()
-                .body("name", equalTo(userData.getName()))
-                .body("job", equalTo(userData.getJob()));
+        UserData userData = userDataBuilder ();
+        given ().body (userData)
+            .when ()
+            .post ("/api/users")
+            .then ()
+            .statusCode (201)
+            .and ()
+            .assertThat ()
+            .body ("name", equalTo (userData.getName ()))
+            .body ("job", equalTo (userData.getJob ()));
 
     }
 
-    private UserData userDataBuilder() {
-        Faker faker = Faker.instance();
-        return UserData.builder().name(faker.name().firstName()).job(faker.company().profession())
-                .build();
+    private UserData userDataBuilder () {
+        Faker faker = Faker.instance ();
+        return UserData.builder ()
+            .name (faker.name ()
+                .firstName ())
+            .job (faker.company ()
+                .profession ())
+            .build ();
     }
-
 
 }

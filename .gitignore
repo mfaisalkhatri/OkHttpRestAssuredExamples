@@ -13,6 +13,7 @@ test-output/
 *.iws
 *.iml
 *.ipr
+okhttppoc.iml
 
 ### Eclipse ###
 .apt_generated

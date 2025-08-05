@@ -43,64 +43,31 @@ import org.testng.annotations.Test;
  */
 public class TestPatchRequests {
 
-    Logger                      log = LogManager.getLogger (TestPatchRequests.class);
     private static final String URL = "https://reqres.in";
+    Logger log = LogManager.getLogger (TestPatchRequests.class);
 
     /**
-     * @since Mar 8, 2020
      * @return putData
-     */
-    @DataProvider (name = "patchData")
-    public Iterator<Object []> patchData () {
-        final List<Object []> patchData = new ArrayList<> ();
-        patchData.add (new Object [] { 2, "Michael", "QA Lead" });
-        patchData.add (new Object [] { 958, "Yuan", "Project Architect" });
-        return patchData.iterator ();
-    }
-
-    /**
-     * Executing Put Request using Rest Assured.
      *
      * @since Mar 8, 2020
-     * @param id
-     * @param name
-     * @param job
      */
-    @Test (dataProvider = "patchData", groups = "PatchTests")
-    public void testPatchWithRestAssured (final int id, final String name, final String job) {
-
-        final PostData postData = new PostData (name, job);
-        final String response = given ().contentType (ContentType.JSON)
-            .body (postData)
-            .when ()
-            .patch (URL + "/api/users/" + id)
-            .then ()
-            .assertThat ()
-            .statusCode (200)
-            .and ()
-            .assertThat ()
-            .body ("name", equalTo (name))
-            .and ()
-            .assertThat ()
-            .body ("job", equalTo (job))
-            .and ()
-            .extract ()
-            .response ()
-            .body ()
-            .asString ();
-
-        this.log.info (response);
-
+    @DataProvider (name = "patchData")
+    public Iterator<Object[]> patchData () {
+        final List<Object[]> patchData = new ArrayList<> ();
+        patchData.add (new Object[] { 2, "Michael", "QA Lead" });
+        patchData.add (new Object[] { 958, "Yuan", "Project Architect" });
+        return patchData.iterator ();
     }
 
     /**
      * Executing Put Request using OkHttp
      *
-     * @since Mar 8, 2020
      * @param id
      * @param name
      * @param job
+     *
      * @throws IOException
+     * @since Mar 8, 2020
      */
     @Test (dataProvider = "patchData", groups = "PatchTests")
     public void testPatchWithOkHttp (final int id, final String name, final String job) throws IOException {
@@ -132,7 +99,41 @@ public class TestPatchRequests {
         assertEquals (statusCode, 200);
         assertThat (jsonResponse.getString ("name"), equalTo (name));
         assertThat (jsonResponse.getString ("job"), equalTo (job));
-
     }
 
+    /**
+     * Executing Put Request using Rest Assured.
+     *
+     * @param id
+     * @param name
+     * @param job
+     *
+     * @since Mar 8, 2020
+     */
+    @Test (dataProvider = "patchData", groups = "PatchTests")
+    public void testPatchWithRestAssured (final int id, final String name, final String job) {
+
+        final PostData postData = new PostData (name, job);
+        final String response = given ().contentType (ContentType.JSON)
+            .body (postData)
+            .when ()
+            .patch (URL + "/api/users/" + id)
+            .then ()
+            .assertThat ()
+            .statusCode (200)
+            .and ()
+            .assertThat ()
+            .body ("name", equalTo (name))
+            .and ()
+            .assertThat ()
+            .body ("job", equalTo (job))
+            .and ()
+            .extract ()
+            .response ()
+            .body ()
+            .asString ();
+
+        this.log.info (response);
+
+    }
 }

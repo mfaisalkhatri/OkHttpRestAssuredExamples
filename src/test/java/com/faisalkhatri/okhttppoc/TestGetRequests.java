@@ -41,17 +41,18 @@ import org.testng.annotations.Test;
  */
 public class TestGetRequests {
 
-    Logger                      log = LogManager.getLogger (TestGetRequests.class);
     private static final String URL = "https://reqres.in/api/users/";
+    Logger log = LogManager.getLogger (TestGetRequests.class);
 
     /**
-     * @since Mar 7, 2020
      * @return getUserData
+     *
+     * @since Mar 7, 2020
      */
     @DataProvider (name = "getUserData")
-    public Iterator<Object []> getUsers () {
-        final List<Object []> getData = new ArrayList<> ();
-        getData.add (new Object [] { 2 });
+    public Iterator<Object[]> getUsers () {
+        final List<Object[]> getData = new ArrayList<> ();
+        getData.add (new Object[] { 2 });
         return getData.iterator ();
     }
 
@@ -59,8 +60,9 @@ public class TestGetRequests {
      * Executing get request using okhttp
      *
      * @param userId
-     * @since Mar 7, 2020
+     *
      * @throws IOException
+     * @since Mar 7, 2020
      */
     @Test (dataProvider = "getUserData", groups = "GetTests")
     public void testGetRequestWithOkHttp (final int userId) throws IOException {
@@ -85,60 +87,10 @@ public class TestGetRequests {
     }
 
     /**
-     * Executing get requests using Rest-assured
+     * @param userPage
      *
-     * @param userId
-     * @since Mar 7, 2020
-     */
-    @Test (dataProvider = "getUserData", groups = "GetTests")
-    public void testGetRequestWithRestAssured (final int userId) {
-        given ().when ()
-            .get (URL + userId)
-            .then ()
-            .statusCode (200)
-            .and ()
-            .assertThat ()
-            .body ("data.id", equalTo (userId));
-
-        final int statusCode = given ().when ()
-            .get (URL + userId)
-            .statusCode ();
-        this.log.info (statusCode);
-
-        final String responseBody = given ().when ()
-            .get (URL + userId)
-            .getBody ()
-            .asString ();
-        this.log.info (responseBody);
-    }
-
-    /**
-     * @since Mar 7, 2020
-     * @param userPage
-     */
-    @Test (dataProvider = "getUserData", groups = "GetTests")
-    public void testGetRequestWithQueryParamWithRestAssured (final int userPage) {
-        given ().when ()
-            .queryParam ("page", userPage)
-            .get (URL)
-            .then ()
-            .statusCode (200)
-            .and ()
-            .assertThat ()
-            .body ("page", equalTo (userPage));
-
-        final String responseBody = given ().when ()
-            .queryParam ("page", userPage)
-            .get (URL)
-            .getBody ()
-            .asString ();
-        this.log.info (responseBody);
-    }
-
-    /**
-     * @since Mar 7, 2020
-     * @param userPage
      * @throws IOException
+     * @since Mar 7, 2020
      */
     @Test (dataProvider = "getUserData", groups = "GetTests")
     public void testGetRequestWithQueryParamOkHttp (final int userPage) throws IOException {
@@ -166,5 +118,58 @@ public class TestGetRequests {
             .getString ("first_name");
         assertThat (firstName, equalTo ("Michael"));
 
+    }
+
+    /**
+     * @param userPage
+     *
+     * @since Mar 7, 2020
+     */
+    @Test (dataProvider = "getUserData", groups = "GetTests")
+    public void testGetRequestWithQueryParamWithRestAssured (final int userPage) {
+        given ().when ()
+            .queryParam ("page", userPage)
+            .get (URL)
+            .then ()
+            .statusCode (200)
+            .and ()
+            .assertThat ()
+            .body ("page", equalTo (userPage));
+
+        final String responseBody = given ().when ()
+            .queryParam ("page", userPage)
+            .get (URL)
+            .getBody ()
+            .asString ();
+        this.log.info (responseBody);
+    }
+
+    /**
+     * Executing get requests using Rest-assured
+     *
+     * @param userId
+     *
+     * @since Mar 7, 2020
+     */
+    @Test (dataProvider = "getUserData", groups = "GetTests")
+    public void testGetRequestWithRestAssured (final int userId) {
+        given ().when ()
+            .get (URL + userId)
+            .then ()
+            .statusCode (200)
+            .and ()
+            .assertThat ()
+            .body ("data.id", equalTo (userId));
+
+        final int statusCode = given ().when ()
+            .get (URL + userId)
+            .statusCode ();
+        this.log.info (statusCode);
+
+        final String responseBody = given ().when ()
+            .get (URL + userId)
+            .getBody ()
+            .asString ();
+        this.log.info (responseBody);
     }
 }
