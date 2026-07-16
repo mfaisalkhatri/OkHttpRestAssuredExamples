@@ -21,7 +21,7 @@
         <log4j.api.version>2.25.1</log4j.api.version>
         <jsonsimple.version>1.1.1</jsonsimple.version>
         <lombok.version>1.18.38</lombok.version>
-        <jackson.databind.version>2.19.2</jackson.databind.version>
+        <jackson.databind.version>2.21.5</jackson.databind.version>
         <orgjson.version>20250517</orgjson.version>
         <javafaker.version>1.0.2</javafaker.version>
         <maven.compiler.version>3.14.0</maven.compiler.version>
